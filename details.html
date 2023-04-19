@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+
+    <h1>Students Details</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>RegisterNumber</th>
+                <th>DateOfBirth</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>AddressLine1</th>
+                <th>AddressLine2</th>
+                <th>City</th>
+                <th>State</th>
+                <th>ZipCode</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+
+    <script>
+
+        function addStudent(data) {
+            const row = document.createElement('tr')
+            row.innerHTML = `
+                <td>${data.firstname}</td>
+                <td>${data.lastname}</td>
+                <td>${data.registernumber}</td>
+                <td>${data.dob}</td>
+                <td>${data.gender}</td>
+                <td>${data.email}</td>
+                <td>${data.phonenumber}</td>
+                <td>${data.addressline1}</td>
+                <td>${data.addressline2}</td>
+                <td>${data.city}</td>
+                <td>${data.state}</td>
+                <td>${data.zipcode}</td>
+                <td>${data.country}</td>
+
+            `
+            return row
+        }
+
+        async function refreshList() {
+            const response = await fetch('http://localhost:3000/details')
+            const data = await response.json()
+
+            let table = document.getElementById('tbody')
+            table.innerHTML = ''
+
+            data.forEach(d => {
+                const row = addStudent(d)
+                table.appendChild(row)
+            });
+
+        }
+
+        refreshList()
+
+    </script>
+</body>
+
+</html>

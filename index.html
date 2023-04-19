@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <h1>Student Registration Form</h1>
+
+    <form id="form-ele">
+        <label for="firstname">First Name</label>
+        <input type="text" id="username" name="firstname" required>
+
+        <label for="lastname">Last Name</label>
+        <input type="text" id="username" name="lastname" required />
+
+        <label for="registernumber">Register Number</label>
+        <input type="text" id="registernumber" name="registernumber" required>
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="gender">Gender</label>
+        <input type="text" id="gender" name="gender" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phonenumber">Phone</label>
+        <input type="tel" id="phonenumber" name="phonenumber" required>
+
+        <label for="addressline1">Address Line 1</label>
+        <input type="textarea" id="addressline1" name="addressline1" required>
+
+        <label for="addressline2">Address Line 2</label>
+        <input type="textarea" id="addressline2" name="addressline2">
+
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="state">State</label>
+        <input type="text" id="state" name="state" required>
+
+        <label for="zipcode">Zip Code:</label>
+        <input type="text" id="zip" name="zipcode" required>
+
+
+        <label for="country">Country</label>
+        <input type="text" id="country" name="country" required>
+
+        <button type="submit">register user</button>
+        <button onclick="changePage()">View details</button>
+
+    </form>
+
+    <script>
+
+        function changePage() {
+            window.location.href = "details.html";
+        }
+
+        let form = document.getElementById('form-ele')
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault()
+
+            if (form.checkValidity()) {
+                try {
+                    const response = await fetch("http://localhost:3000/add", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+                    });
+                    if (response.ok) {
+                        alert("student registered successfully!");
+                        form.reset();
+                    } else {
+                        alert("Error registering student");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("stuent not created");
+                }
+            }
+            else {
+                form.reportValidity()
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>
